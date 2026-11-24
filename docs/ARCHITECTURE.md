@@ -1,0 +1,9 @@
+# Architecture and implementation plan
+
+Status: an incomplete synthetic-data preview. It has a React UI, a Manifest V3 worker, Dexie storage, and a deterministic demonstration classifier. When a client ID is configured, the worker can obtain and revoke a Gmail metadata-scope token; it does not retrieve or modify real mail. Its message interface accepts only schema-validated requests from the extension's top-level pages. There is no Gmail API host permission, AI model, or modification path. The classifier is illustrative, not a comprehensive sensitive-data detector.
+
+Remaining phases, in order: (1) threat model and complete deterministic privacy policy with tests; (2) OAuth scope lifecycle and metadata-only Gmail client; (3) persistent, resumable scanning and review; (4) separately authorized, revalidated message-level mutations and conflict-aware undo; (5) isolated, packaged local inference after an MV3 security review; (6) scheduled incremental sync, personalization, and distribution review. No production or privacy guarantees should be inferred from the demo.
+
+Gmail's metadata scope does not permit the list `q` parameter; use `labelIds=UNREAD` and pagination. MV3 workers may stop, so future jobs must checkpoint every batch. Gmail scopes grant mailbox-wide capabilities; sender and label restrictions would be enforced by the extension, not Google. Gmail API metadata responses and privacy policy must be evaluated before storing or sending any message to an inference component.
+
+References: https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/list ; https://developer.chrome.com/docs/extensions/develop/migrate/what-is-mv3/ ; https://huggingface.co/blog/transformersjs-chrome-extension . Transformers.js is a candidate, but model runtime, worker/WASM packaging, isolation and network constraints remain unverified. No model is included or downloaded.

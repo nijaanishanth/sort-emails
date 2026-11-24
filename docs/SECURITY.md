@@ -1,0 +1,9 @@
+# Security status and boundaries
+
+Quiet Inbox is a synthetic-data preview, not a Gmail client. An optional OAuth connection can request Gmail metadata permission, but there is no Gmail API host access, real-mail scanning, AI inference, or mail modification. Do not use the demonstration classifier to protect real sensitive information; it is incomplete and has not undergone a security assessment.
+
+The default production manifest requests only local storage and side panel permissions and limits extension-page network connections to the extension itself. When an OAuth client ID is configured, it additionally requests Chrome Identity and allows the Google token revocation endpoint. Email or other untrusted HTML is not rendered. Messages to the background worker must come from a top-level packaged UI page of this extension and match an exact schema. Synthetic data operations are serialized. The application does not persist tokens or actual email bodies.
+
+Development mode starts a loopback-only server and adds a localhost host permission and connection exception to the development manifest. It uses an ephemeral random secret to authorize build notifications; it does not transmit inbox data. Other processes with access to the same user's environment or Chrome profile, compromised dependencies, and a compromised operating system are outside this boundary. Stop the server when not developing. Use `npm run package` for a production build and never distribute the development build.
+
+Browser profile storage is not necessarily encrypted against a person or program with profile access. These controls and tests reduce some risks; they do not prove the application secure or guarantee it cannot be compromised. Future Gmail or AI work needs a separate threat model, permission and privacy review, adversarial testing, dependency review, and independent security assessment before use with real mail.

@@ -1,0 +1,9 @@
+# Quiet Inbox — incomplete preview
+
+This repository contains a synthetic inbox preview, not the requested completed Gmail extension. An optional metadata-only Google connection is available after OAuth setup, but it cannot scan or modify real messages, run AI, schedule synchronization, or undo actions. Do not use it to manage a real inbox. Privacy matching is illustrative and incomplete.
+
+With Node.js installed, run `npm install`, `npm run dev`, `npm run build`, and `npm test`. The build creates `dist/`. To load the preview, open `chrome://extensions`, enable Developer mode, choose **Load unpacked**, and select `dist`. Run `npm run package` to create a ZIP; extract it before loading it unpacked. A ZIP is not normally directly installable in Chrome.
+
+For live development, run `npm run dev` and load `dist` after the first build. Keep the dashboard or side panel open while editing: after each successful rebuild it signals Chrome to reload the extension. Chrome may close extension pages when it reloads; reopen the dashboard or side panel to continue automatic reloads. If none is open, reload the extension manually once from `chrome://extensions`. The development build connects only to a local reload server on `127.0.0.1:43173`; no email or demo data is sent to it. Stop the process with Ctrl+C. Run `npm run package` to replace the development build with a production build that has no reload connection or localhost permission; do not package the development build for distribution.
+
+The preview stores synthetic records locally in IndexedDB and has a clear button. Browser profile storage is not necessarily encrypted. See [Gmail setup](docs/GMAIL_SETUP.md) and [architecture and remaining work](docs/ARCHITECTURE.md). OAuth verification, production privacy policy, store submission, comprehensive testing, icons, and real Gmail scanning are still required.
